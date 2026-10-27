@@ -101,7 +101,8 @@ def render():
 
             if data:
                 # 1. Wireframe Element: Star Rating
-                st.markdown(f"### 🎬 {data['movie_title']} {f'({data.get(\"released_year\")})' if data.get('released_year') else ''}")
+                year_str = f"({data.get('released_year')})" if data.get("released_year") else ""
+                st.markdown(f"### 🎬 {data['movie_title']} {year_str}")
                 
                 if data.get("director") or data.get("cast"):
                     meta_bits = []
