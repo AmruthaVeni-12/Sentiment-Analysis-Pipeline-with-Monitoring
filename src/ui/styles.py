@@ -1,201 +1,200 @@
 CUSTOM_CSS = """
 <style>
-    @import url('https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@300;400;500;600;700;800&display=swap');
+    @import url('https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&display=swap');
 
+    /* Global App Canvas */
     html, body, [class*="css"], .stApp {
-        font-family: 'Plus Jakarta Sans', -apple-system, BlinkMacSystemFont, sans-serif !important;
-        background-color: #0b0f19 !important;
-        color: #f1f5f9 !important;
+        font-family: 'Plus Jakarta Sans', -apple-system, sans-serif !important;
+        background-color: #0b111e !important;
+        color: #ffffff !important;
     }
 
-    /* Reduce default Streamlit top blank padding */
+    /* Streamlit Container Width & Padding */
     .block-container {
         padding-top: 2rem !important;
-        padding-bottom: 3rem !important;
-        max-width: 1200px !important;
+        padding-bottom: 3.5rem !important;
+        max-width: 1140px !important;
     }
 
-    /* Hide Streamlit footer & default menu clutter */
-    #MainMenu {visibility: hidden;}
-    footer {visibility: hidden;}
-    header {visibility: hidden;}
+    /* Clean Header/Footer Removals */
+    #MainMenu, footer, header { visibility: hidden !important; }
 
-    /* Sidebar Styling */
+    /* Sidebar - Deep Matte Navy */
     section[data-testid="stSidebar"] {
-        background-color: #0f172a !important;
-        border-right: 1px solid rgba(255, 255, 255, 0.07) !important;
-    }
-    
-    section[data-testid="stSidebar"] .stRadio label {
-        font-size: 0.95rem !important;
-        font-weight: 500 !important;
-        padding: 6px 12px !important;
-        border-radius: 8px !important;
-        transition: all 0.2s ease !important;
+        background-color: #080d17 !important;
+        border-right: 1px solid #1e293b !important;
     }
 
-    /* Headings */
+    section[data-testid="stSidebar"] p,
+    section[data-testid="stSidebar"] span {
+        color: #e2e8f0 !important;
+        font-size: 0.95rem !important;
+    }
+
+    /* Typography Hierarchy - High Contrast White & Off-White */
     h1 {
-        font-size: 2.1rem !important;
+        font-size: 2.2rem !important;
         font-weight: 800 !important;
-        letter-spacing: -0.02em !important;
         color: #ffffff !important;
-        margin-bottom: 0.5rem !important;
+        letter-spacing: -0.02em !important;
+        margin-bottom: 0.6rem !important;
     }
 
     h2 {
-        font-size: 1.6rem !important;
+        font-size: 1.65rem !important;
         font-weight: 700 !important;
+        color: #ffffff !important;
         letter-spacing: -0.01em !important;
-        color: #f8fafc !important;
-        margin-top: 0.5rem !important;
-        margin-bottom: 0.75rem !important;
+        margin-top: 0.2rem !important;
+        margin-bottom: 0.5rem !important;
     }
 
     h3 {
         font-size: 1.25rem !important;
-        font-weight: 600 !important;
+        font-weight: 700 !important;
+        color: #f8fafc !important;
+        margin-top: 1rem !important;
+        margin-bottom: 0.5rem !important;
+    }
+
+    p, span, div, label {
         color: #e2e8f0 !important;
+        font-size: 1rem !important;
+        line-height: 1.65 !important;
     }
 
-    p, span, label {
-        font-size: 0.95rem !important;
-        line-height: 1.6 !important;
+    /* Form Labels: Crisp, Bright White */
+    .stTextInput label, 
+    .stTextArea label, 
+    .stNumberInput label,
+    .stSelectbox label {
+        color: #ffffff !important;
+        font-size: 1rem !important;
+        font-weight: 600 !important;
+        margin-bottom: 6px !important;
     }
 
-    /* Cards */
-    .glass-card {
-        background: rgba(17, 24, 39, 0.75) !important;
-        backdrop-filter: blur(12px) !important;
-        border: 1px solid rgba(255, 255, 255, 0.08) !important;
-        border-radius: 14px !important;
+    /* Inputs: Dark Slate with High Contrast White Text */
+    .stTextInput input, 
+    .stTextArea textarea, 
+    .stNumberInput input {
+        background-color: #131c2e !important;
+        border: 1.5px solid #2d3d57 !important;
+        border-radius: 8px !important;
+        color: #ffffff !important;
+        font-size: 1rem !important;
+        padding: 12px 14px !important;
+    }
+
+    .stTextInput input:focus, 
+    .stTextArea textarea:focus {
+        border-color: #f59e0b !important;
+        box-shadow: 0 0 0 2px rgba(245, 158, 11, 0.25) !important;
+    }
+
+    /* Solid Unified Cards */
+    .app-card {
+        background-color: #131c2e !important;
+        border: 1px solid #24344d !important;
+        border-radius: 12px !important;
         padding: 24px !important;
         margin-bottom: 20px !important;
-        box-shadow: 0 10px 25px -5px rgba(0, 0, 0, 0.4) !important;
+        box-shadow: 0 4px 16px rgba(0, 0, 0, 0.35) !important;
     }
 
-    .hero-banner {
-        background: linear-gradient(135deg, rgba(30, 41, 59, 0.8) 0%, rgba(15, 23, 42, 0.9) 100%) !important;
-        border: 1px solid rgba(99, 102, 241, 0.25) !important;
-        border-radius: 16px !important;
-        padding: 30px !important;
+    /* Hero Banner: Gold Accent */
+    .hero-box {
+        background: linear-gradient(145deg, #162035 0%, #101726 100%) !important;
+        border: 1px solid #2e4060 !important;
+        border-left: 5px solid #f59e0b !important;
+        border-radius: 12px !important;
+        padding: 28px !important;
         margin-bottom: 24px !important;
-        box-shadow: 0 12px 30px -10px rgba(99, 102, 241, 0.15) !important;
     }
 
-    .gradient-text {
-        background: linear-gradient(135deg, #60a5fa 0%, #a855f7 50%, #ec4899 100%);
-        -webkit-background-clip: text;
-        -webkit-text-fill-color: transparent;
-        display: inline-block;
+    .gold-accent {
+        color: #f59e0b !important;
+        font-weight: 800 !important;
     }
 
-    /* Sentiment Tier Badges */
-    .tier-card {
-        border-radius: 12px;
-        padding: 16px 12px;
-        text-align: center;
-        background: rgba(15, 23, 42, 0.6);
-        border: 1px solid rgba(255, 255, 255, 0.08);
-        transition: transform 0.2s ease, border-color 0.2s ease;
-    }
-    .tier-card:hover {
-        transform: translateY(-2px);
-    }
-    
-    .tier-title {
-        font-weight: 700;
-        font-size: 0.95rem;
-        margin-bottom: 4px;
-    }
-
-    .tier-desc {
-        font-size: 0.78rem !important;
-        color: #94a3b8;
-        line-height: 1.4 !important;
-        margin-top: 6px;
-    }
-
-    .pill-badge {
-        display: inline-block;
-        padding: 4px 12px;
-        border-radius: 20px;
-        font-weight: 600;
-        font-size: 0.82rem !important;
-        letter-spacing: 0.3px;
-    }
-
-    .pill-vneg { background: rgba(239, 68, 68, 0.15); color: #fca5a5; border: 1px solid rgba(239, 68, 68, 0.3); }
-    .pill-neg  { background: rgba(249, 115, 22, 0.15); color: #fdba74; border: 1px solid rgba(249, 115, 22, 0.3); }
-    .pill-neu  { background: rgba(234, 179, 8, 0.15);  color: #fde047; border: 1px solid rgba(234, 179, 8, 0.3); }
-    .pill-pos  { background: rgba(59, 130, 246, 0.15); color: #93c5fd; border: 1px solid rgba(59, 130, 246, 0.3); }
-    .pill-vpos { background: rgba(16, 185, 129, 0.15); color: #6ee7b7; border: 1px solid rgba(16, 185, 129, 0.3); }
-
-    /* Justification Box */
-    .justification-card {
-        background: linear-gradient(135deg, rgba(15, 23, 42, 0.95) 0%, rgba(30, 41, 59, 0.8) 100%);
-        border-left: 4px solid #38bdf8;
-        border-radius: 12px;
-        padding: 22px 26px;
-        font-size: 1rem !important;
-        line-height: 1.8 !important;
-        color: #f1f5f9;
-        margin: 18px 0;
-        box-shadow: 0 4px 20px rgba(0, 0, 0, 0.25);
-    }
-
-    /* Buttons */
+    /* Buttons: Bold Cinema Gold that Suited with Deep Navy Canvas */
     .stButton > button {
-        background: linear-gradient(135deg, #4f46e5 0%, #7c3aed 100%) !important;
-        color: #ffffff !important;
-        border: none !important;
-        padding: 10px 24px !important;
-        font-weight: 600 !important;
-        font-size: 0.95rem !important;
-        border-radius: 10px !important;
-        transition: all 0.2s ease !important;
-        box-shadow: 0 4px 14px rgba(99, 102, 241, 0.35) !important;
+        background-color: #f59e0b !important;
+        color: #0b111e !important;
+        border: 1px solid #d97706 !important;
+        border-radius: 8px !important;
+        padding: 12px 24px !important;
+        font-size: 1rem !important;
+        font-weight: 700 !important;
+        letter-spacing: 0.2px !important;
+        transition: all 0.2s ease-in-out !important;
+        box-shadow: 0 4px 12px rgba(245, 158, 11, 0.25) !important;
     }
 
     .stButton > button:hover {
-        opacity: 0.92 !important;
+        background-color: #fbbf24 !important;
+        color: #000000 !important;
         transform: translateY(-1px) !important;
-        box-shadow: 0 6px 20px rgba(99, 102, 241, 0.5) !important;
+        box-shadow: 0 6px 18px rgba(245, 158, 11, 0.4) !important;
     }
 
-    /* Inputs */
-    .stTextInput > div > div > input, 
-    .stTextArea > div > div > textarea,
-    .stNumberInput > div > div > input {
-        background-color: rgba(15, 23, 42, 0.8) !important;
-        border: 1px solid rgba(255, 255, 255, 0.12) !important;
-        border-radius: 10px !important;
-        color: #f8fafc !important;
-        font-size: 0.95rem !important;
-        padding: 10px 14px !important;
+    .stButton > button:active {
+        transform: translateY(1px) !important;
     }
 
-    .stTextInput > div > div > input:focus, 
-    .stTextArea > div > div > textarea:focus {
-        border-color: #6366f1 !important;
-        box-shadow: 0 0 0 2px rgba(99, 102, 241, 0.2) !important;
+    /* Sentiment Tier Badges (High Contrast Pills) */
+    .tier-box {
+        background-color: #131c2e;
+        border: 1px solid #24344d;
+        border-radius: 10px;
+        padding: 16px 10px;
+        text-align: center;
+    }
+
+    .badge-pill {
+        display: inline-block;
+        padding: 5px 12px;
+        border-radius: 6px;
+        font-weight: 700;
+        font-size: 0.85rem !important;
+        margin: 6px 0;
+        letter-spacing: 0.3px;
+    }
+
+    .badge-vneg { background-color: #7f1d1d; color: #fecaca !important; border: 1px solid #dc2626; }
+    .badge-neg  { background-color: #7c2d12; color: #fed7aa !important; border: 1px solid #ea580c; }
+    .badge-neu  { background-color: #713f12; color: #fef08a !important; border: 1px solid #ca8a04; }
+    .badge-pos  { background-color: #1e3a8a; color: #bfdbfe !important; border: 1px solid #2563eb; }
+    .badge-vpos { background-color: #14532d; color: #bbf7d0 !important; border: 1px solid #16a34a; }
+
+    /* Rating Justification Box */
+    .justification-panel {
+        background-color: #162238;
+        border-left: 4px solid #f59e0b;
+        border-radius: 8px;
+        padding: 22px 24px;
+        font-size: 1.05rem !important;
+        line-height: 1.8 !important;
+        color: #ffffff !important;
+        margin: 18px 0;
+        box-shadow: 0 4px 15px rgba(0, 0, 0, 0.3);
     }
 
     /* Clean Footer */
-    .app-footer {
+    .clean-footer {
         margin-top: 45px;
         padding-top: 18px;
-        border-top: 1px solid rgba(255, 255, 255, 0.08);
+        border-top: 1px solid #1e293b;
         text-align: center;
-        color: #64748b;
-        font-size: 0.82rem;
+        color: #94a3b8 !important;
+        font-size: 0.88rem !important;
     }
 </style>
 """
 
 def render_footer():
     return """
-    <div class="app-footer">
+    <div class="clean-footer">
         🎬 <b>CinePulse</b> · 5-Class Movie Sentiment Platform · Powered by FastAPI & Scikit-Learn
     </div>
     """

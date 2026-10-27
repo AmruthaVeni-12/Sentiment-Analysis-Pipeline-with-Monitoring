@@ -10,14 +10,14 @@ def render():
     st.markdown("""
     <div style="margin-bottom: 20px;">
         <h2 style="margin: 0;">⚡ Real-Time Sentiment Studio</h2>
-        <p style="color: #94a3b8; font-size: 0.95rem; margin: 4px 0 0 0;">
+        <p style="color: #cbd5e1; font-size: 1rem; margin: 4px 0 0 0;">
             Test arbitrary movie snippets or audience critiques to inspect instant classification and 5-class probability distributions.
         </p>
     </div>
     """, unsafe_allow_html=True)
 
-    # Example prompt pills
-    st.markdown("<span style='font-size:0.8rem; color:#64748b;'>Sample critiques:</span>", unsafe_allow_html=True)
+    # Sample prompt buttons
+    st.markdown("<span style='font-size:0.9rem; font-weight:600; color:#cbd5e1;'>Sample review excerpts:</span>", unsafe_allow_html=True)
     c_p1, c_p2, c_p3 = st.columns(3)
     sample_text = ""
     with c_p1:
@@ -33,7 +33,7 @@ def render():
     user_input_text = st.text_area(
         "User Input Text",
         value=sample_text,
-        height=110,
+        height=115,
         placeholder="Type or paste any movie review snippet here...",
         label_visibility="collapsed"
     )
@@ -63,33 +63,33 @@ def render():
             st.markdown("<h3 style='margin-top: 24px;'>🎯 Output Sentiment Analyzer</h3>", unsafe_allow_html=True)
 
             badge_class = {
-                0: "pill-vneg",
-                1: "pill-neg",
-                2: "pill-neu",
-                3: "pill-pos",
-                4: "pill-vpos"
-            }.get(pred_data["sentiment_class"], "pill-neu")
+                0: "badge-vneg",
+                1: "badge-neg",
+                2: "badge-neu",
+                3: "badge-pos",
+                4: "badge-vpos"
+            }.get(pred_data["sentiment_class"], "badge-neu")
 
             col_res1, col_res2 = st.columns([1, 1])
 
             with col_res1:
                 st.markdown(f"""
-                <div class="glass-card" style="height: 100%; display: flex; flex-direction: column; justify-content: center;">
-                    <div style="color: #94a3b8; font-size: 0.85rem;">Predicted Rating</div>
-                    <div style="font-size: 2.2rem; font-weight: 800; color: #fbbf24; margin: 4px 0;">
+                <div class="app-card" style="height: 100%; display: flex; flex-direction: column; justify-content: center;">
+                    <div style="color: #cbd5e1; font-size: 0.9rem; font-weight: 600;">Predicted Rating</div>
+                    <div style="font-size: 2.3rem; font-weight: 800; color: #fbbf24; margin: 4px 0;">
                         {'★' * pred_data['star_rating']}
                     </div>
-                    <div style="margin-bottom: 12px;">
-                        <span class="pill-badge {badge_class}" style="font-size: 0.95rem !important;">{pred_data['sentiment_label']}</span>
+                    <div style="margin-bottom: 14px;">
+                        <span class="badge-pill {badge_class}" style="font-size: 1rem !important;">{pred_data['sentiment_label']}</span>
                     </div>
-                    <div style="display: flex; gap: 20px; border-top: 1px solid rgba(255,255,255,0.08); padding-top: 12px;">
+                    <div style="display: flex; gap: 24px; border-top: 1px solid #24344d; padding-top: 14px;">
                         <div>
-                            <span style="color:#64748b; font-size:0.75rem; display:block;">Confidence</span>
-                            <span style="font-weight:700; color:#38bdf8; font-size:1.1rem;">{pred_data['confidence_score'] * 100:.1f}%</span>
+                            <span style="color:#cbd5e1; font-size:0.8rem; display:block; font-weight:600;">Confidence</span>
+                            <span style="font-weight:800; color:#38bdf8; font-size:1.25rem;">{pred_data['confidence_score'] * 100:.1f}%</span>
                         </div>
                         <div>
-                            <span style="color:#64748b; font-size:0.75rem; display:block;">Latency</span>
-                            <span style="font-weight:700; color:#a855f7; font-size:1.1rem;">{pred_data['inference_time_ms']} ms</span>
+                            <span style="color:#cbd5e1; font-size:0.8rem; display:block; font-weight:600;">Inference Latency</span>
+                            <span style="font-weight:800; color:#fbbf24; font-size:1.25rem;">{pred_data['inference_time_ms']} ms</span>
                         </div>
                     </div>
                 </div>
@@ -103,7 +103,7 @@ def render():
                         "Probability": [v * 100 for v in prob_dict.values()]
                     })
                     
-                    colors = ["#ef4444", "#f97316", "#eab308", "#3b82f6", "#10b981"]
+                    colors = ["#ef4444", "#f97316", "#eab308", "#3b82f6", "#22c55e"]
                     fig = px.bar(
                         df_probs,
                         x="Probability",
@@ -114,16 +114,16 @@ def render():
                         color_discrete_sequence=colors
                     )
                     fig.update_layout(
-                        title=dict(text="Class Probability Distribution", font=dict(size=14, color="#e2e8f0")),
+                        title=dict(text="Class Probability Distribution", font=dict(size=15, color="#ffffff")),
                         showlegend=False,
                         height=240,
                         margin=dict(l=10, r=20, t=30, b=10),
-                        paper_bgcolor="rgba(0,0,0,0)",
-                        plot_bgcolor="rgba(0,0,0,0)",
-                        font=dict(color="#f1f5f9", family="Plus Jakarta Sans")
+                        paper_bgcolor="#131c2e",
+                        plot_bgcolor="#131c2e",
+                        font=dict(color="#ffffff", family="Plus Jakarta Sans", size=13)
                     )
-                    fig.update_xaxes(title="", range=[0, 100], gridcolor="rgba(255,255,255,0.05)")
-                    fig.update_yaxes(title="", gridcolor="rgba(255,255,255,0.05)")
+                    fig.update_xaxes(title="", range=[0, 100], gridcolor="#24344d", tickfont=dict(color="#ffffff"))
+                    fig.update_yaxes(title="", gridcolor="#24344d", tickfont=dict(color="#ffffff"))
                     st.plotly_chart(fig, use_container_width=True)
 
     st.markdown(render_footer(), unsafe_allow_html=True)

@@ -9,16 +9,16 @@ st.set_page_config(
     initial_sidebar_state="expanded"
 )
 
-# Apply unified design system
+# Apply unified high-contrast design
 st.markdown(CUSTOM_CSS, unsafe_allow_html=True)
 
-# Minimalist, elegant sidebar
+# Minimalist, high-contrast sidebar
 st.sidebar.markdown("""
-<div style="padding: 10px 0 20px 0;">
-    <h2 style="margin: 0; font-size: 1.45rem; font-weight: 800; letter-spacing: -0.5px;">
-        🎬 <span style="background: linear-gradient(135deg, #60a5fa, #a855f7); -webkit-background-clip: text; -webkit-text-fill-color: transparent;">CinePulse</span>
+<div style="padding: 12px 0 24px 0; border-bottom: 1px solid #1e293b; margin-bottom: 16px;">
+    <h2 style="margin: 0; font-size: 1.5rem; font-weight: 800; color: #ffffff;">
+        🎬 <span style="color: #f59e0b;">CinePulse</span>
     </h2>
-    <p style="margin: 4px 0 0 0; color: #64748b; font-size: 0.8rem; font-weight: 500;">
+    <p style="margin: 4px 0 0 0; color: #cbd5e1; font-size: 0.85rem; font-weight: 500;">
         Movie Sentiment Intelligence
     </p>
 </div>
@@ -27,32 +27,32 @@ st.sidebar.markdown("""
 nav_choice = st.sidebar.radio(
     "Navigation",
     [
-        "🎬 Overview",
-        "✍️ Post Review",
-        "🔍 Search Film",
-        "⚡ Live Analyzer",
-        "📈 Drift & Monitoring"
+        "🎬 Screen 1: Overview",
+        "✍️ Screen 2: Post Review",
+        "🔍 Screen 3: Search Film",
+        "⚡ Screen 4: Live Analyzer",
+        "📈 Evidently Drift Monitoring"
     ],
     index=0,
     label_visibility="collapsed"
 )
 
-# Render chosen screen
-if nav_choice == "🎬 Overview":
+# Render screens
+if nav_choice == "🎬 Screen 1: Overview":
     screen1_overview.render()
 
-elif nav_choice == "✍️ Post Review":
+elif nav_choice == "✍️ Screen 2: Post Review":
     screen2_postings.render()
 
-elif nav_choice == "🔍 Search Film":
+elif nav_choice == "🔍 Screen 3: Search Film":
     screen3_search.render()
 
-elif nav_choice == "⚡ Live Analyzer":
+elif nav_choice == "⚡ Screen 4: Live Analyzer":
     screen4_analyzer.render()
 
-elif nav_choice == "📈 Drift & Monitoring":
-    st.markdown("## 📈 Evidently AI Drift & Model Quality")
-    st.markdown("<p style='color:#94a3b8; font-size:0.95rem;'>Detect distribution shift in incoming user critiques against reference IMDb baselines.</p>", unsafe_allow_html=True)
+elif nav_choice == "📈 Evidently Drift Monitoring":
+    st.markdown("<h2>📈 Evidently AI Drift & Model Quality</h2>", unsafe_allow_html=True)
+    st.markdown("<p style='color:#cbd5e1; font-size:1rem;'>Detect distribution shift in incoming user critiques against reference IMDb baselines.</p>", unsafe_allow_html=True)
     st.markdown("---")
     
     col_d1, col_d2 = st.columns([1, 4])
@@ -75,7 +75,7 @@ elif nav_choice == "📈 Drift & Monitoring":
 
             html_report_path = summary.get("report_html_path")
             if html_report_path and open(html_report_path, "r", encoding="utf-8"):
-                st.markdown("<h3 style='margin-top:20px;'>📊 Interactive Evidently Report</h3>", unsafe_allow_html=True)
+                st.markdown("<h3 style='margin-top:24px;'>📊 Interactive Evidently Report</h3>", unsafe_allow_html=True)
                 with open(html_report_path, "r", encoding="utf-8") as f:
                     html_content = f.read()
                 st.components.v1.html(html_content, height=750, scrolling=True)

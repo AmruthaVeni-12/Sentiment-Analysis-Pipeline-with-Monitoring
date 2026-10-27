@@ -9,7 +9,7 @@ def render():
     st.markdown("""
     <div style="margin-bottom: 20px;">
         <h2 style="margin: 0;">🔍 Search Film & Rating Justification</h2>
-        <p style="color: #94a3b8; font-size: 0.95rem; margin: 4px 0 0 0;">
+        <p style="color: #cbd5e1; font-size: 1rem; margin: 4px 0 0 0;">
             Query stored movie reviews to view aggregate star ratings, individual critiques, and an AI-generated justification.
         </p>
     </div>
@@ -36,8 +36,8 @@ def render():
 
     if movie_suggestions:
         st.markdown(
-            f"<div style='font-size:0.82rem; color:#64748b; margin-top:-8px; margin-bottom:15px;'>"
-            f"<b>Database Movies:</b> {', '.join(movie_suggestions[:6])}"
+            f"<div style='font-size:0.88rem; color:#cbd5e1; margin-top:-6px; margin-bottom:16px;'>"
+            f"<b style='color:#ffffff;'>Available Movies:</b> {', '.join(movie_suggestions[:6])}"
             f"</div>",
             unsafe_allow_html=True
         )
@@ -66,45 +66,44 @@ def render():
                 st.error(f"Failed to connect to API server: {e}")
                 return
 
-            # Movie Header Card
-            year_tag = f"<span class='pill-badge pill-neu' style='margin-left:8px;'>{data['released_year']}</span>" if data.get("released_year") else ""
+            year_tag = f"<span class='badge-pill badge-neu' style='margin-left:8px;'>{data['released_year']}</span>" if data.get("released_year") else ""
             
             meta_items = []
             if data.get("director"):
-                meta_items.append(f"<b>Director:</b> {data['director']}")
+                meta_items.append(f"<b style='color:#ffffff;'>Director:</b> {data['director']}")
             if data.get("cast"):
-                meta_items.append(f"<b>Cast:</b> {data['cast']}")
-            meta_html = f"<div style='color:#94a3b8; font-size:0.88rem; margin-top:4px;'>{' · '.join(meta_items)}</div>" if meta_items else ""
+                meta_items.append(f"<b style='color:#ffffff;'>Cast:</b> {data['cast']}")
+            meta_html = f"<div style='color:#cbd5e1; font-size:0.95rem; margin-top:6px;'>{' · '.join(meta_items)}</div>" if meta_items else ""
 
             badge_class = {
-                "Very Negative": "pill-vneg",
-                "Negative": "pill-neg",
-                "Neutral": "pill-neu",
-                "Positive": "pill-pos",
-                "Very Positive": "pill-vpos"
-            }.get(data["sentiment_label"], "pill-neu")
+                "Very Negative": "badge-vneg",
+                "Negative": "badge-neg",
+                "Neutral": "badge-neu",
+                "Positive": "badge-pos",
+                "Very Positive": "badge-vpos"
+            }.get(data["sentiment_label"], "badge-neu")
 
             st.markdown(f"""
-            <div class="glass-card" style="margin-top: 15px;">
+            <div class="app-card" style="margin-top: 15px;">
                 <div style="display: flex; justify-content: space-between; align-items: flex-start; flex-wrap: wrap;">
                     <div>
-                        <h2 style="margin: 0; font-size: 1.55rem; color: #ffffff;">🎬 {data['movie_title']} {year_tag}</h2>
+                        <h2 style="margin: 0; font-size: 1.7rem; color: #ffffff;">🎬 {data['movie_title']} {year_tag}</h2>
                         {meta_html}
                     </div>
                     <div style="text-align: right;">
-                        <span class="pill-badge {badge_class}" style="font-size: 0.9rem !important;">{data['sentiment_label']}</span>
+                        <span class="badge-pill {badge_class}" style="font-size: 0.95rem !important;">{data['sentiment_label']}</span>
                     </div>
                 </div>
-                <hr style="border: 0; border-top: 1px solid rgba(255,255,255,0.08); margin: 16px 0;">
-                <div style="display: flex; gap: 40px; flex-wrap: wrap;">
+                <hr style="border: 0; border-top: 1px solid #24344d; margin: 18px 0;">
+                <div style="display: flex; gap: 45px; flex-wrap: wrap;">
                     <div>
-                        <span style="color:#94a3b8; font-size:0.8rem; display:block;">Overall Star Rating</span>
-                        <span style="font-size:1.6rem; font-weight:800; color:#fbbf24;">{'★' * int(round(data['average_star_rating']))}</span>
-                        <span style="font-size:1.1rem; color:#f1f5f9; font-weight:600; margin-left:6px;">{data['average_star_rating']} / 5.0</span>
+                        <span style="color:#cbd5e1; font-size:0.85rem; display:block; font-weight:600;">Overall Star Rating</span>
+                        <span style="font-size:1.8rem; font-weight:800; color:#fbbf24;">{'★' * int(round(data['average_star_rating']))}</span>
+                        <span style="font-size:1.2rem; color:#ffffff; font-weight:700; margin-left:8px;">{data['average_star_rating']} / 5.0</span>
                     </div>
                     <div>
-                        <span style="color:#94a3b8; font-size:0.8rem; display:block;">Total Postings Analyzed</span>
-                        <span style="font-size:1.6rem; font-weight:800; color:#60a5fa;">{data['total_reviews']}</span>
+                        <span style="color:#cbd5e1; font-size:0.85rem; display:block; font-weight:600;">Total Postings Analyzed</span>
+                        <span style="font-size:1.8rem; font-weight:800; color:#38bdf8;">{data['total_reviews']}</span>
                     </div>
                 </div>
             </div>
@@ -113,7 +112,7 @@ def render():
             # NLP Justification
             st.markdown("<h3>📜 Rating Justification (4 to 5 Sentences)</h3>", unsafe_allow_html=True)
             st.markdown(f"""
-            <div class="justification-card">
+            <div class="justification-panel">
                 {data['justification']}
             </div>
             """, unsafe_allow_html=True)

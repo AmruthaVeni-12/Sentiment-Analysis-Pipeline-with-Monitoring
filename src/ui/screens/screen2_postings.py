@@ -8,7 +8,7 @@ def render():
     st.markdown("""
     <div style="margin-bottom: 20px;">
         <h2 style="margin: 0;">✍️ Post Movie Review</h2>
-        <p style="color: #94a3b8; font-size: 0.95rem; margin: 4px 0 0 0;">
+        <p style="color: #cbd5e1; font-size: 1rem; margin: 4px 0 0 0;">
             Submit film details and an audience review. The NLP engine will automatically classify the sentiment into 1 to 5 stars.
         </p>
     </div>
@@ -29,8 +29,8 @@ def render():
 
         about_movie = st.text_area(
             "About Movie (in 3 to 4 lines) *",
-            height=120,
-            placeholder="Share your thoughts on the narrative, pacing, and performances (e.g. 'A breathtaking cinematic achievement with intense performances and a masterclass in musical scoring.')"
+            height=125,
+            placeholder="Share your thoughts on the story, directing, and acting (e.g. 'A breathtaking cinematic achievement with intense performances and a masterclass in musical scoring.')"
         )
 
         submit_btn = st.form_submit_button("🚀 Submit & Analyze Review", use_container_width=True)
@@ -58,35 +58,34 @@ def render():
                     data = response.json()
                     st.success(f"✅ {data['message']}")
                     
-                    # Styled result card
                     badge_class = {
-                        0: "pill-vneg",
-                        1: "pill-neg",
-                        2: "pill-neu",
-                        3: "pill-pos",
-                        4: "pill-vpos"
-                    }.get(data["sentiment_class"], "pill-neu")
+                        0: "badge-vneg",
+                        1: "badge-neg",
+                        2: "badge-neu",
+                        3: "badge-pos",
+                        4: "badge-vpos"
+                    }.get(data["sentiment_class"], "badge-neu")
 
                     st.markdown(f"""
-                    <div class="glass-card" style="margin-top: 15px; border-left: 4px solid #6366f1;">
-                        <h4 style="margin: 0 0 12px 0; font-size: 1.05rem;">🎯 Sentiment Classification Summary</h4>
-                        <div style="display: flex; gap: 30px; align-items: center; flex-wrap: wrap;">
+                    <div class="app-card" style="margin-top: 15px; border-left: 5px solid #f59e0b;">
+                        <h4 style="margin: 0 0 14px 0; font-size: 1.15rem; color: #ffffff;">🎯 Sentiment Classification Summary</h4>
+                        <div style="display: flex; gap: 35px; align-items: center; flex-wrap: wrap;">
                             <div>
-                                <span style="color:#94a3b8; font-size:0.8rem; display:block;">Assigned Rating</span>
-                                <span style="font-size:1.2rem; font-weight:700; color:#fbbf24;">{'★' * data['star_rating']} ({data['star_rating']}/5)</span>
+                                <span style="color:#cbd5e1; font-size:0.85rem; display:block; font-weight:600;">Assigned Rating</span>
+                                <span style="font-size:1.35rem; font-weight:800; color:#fbbf24;">{'★' * data['star_rating']} ({data['star_rating']}/5)</span>
                             </div>
                             <div>
-                                <span style="color:#94a3b8; font-size:0.8rem; display:block;">Sentiment Tier</span>
-                                <span class="pill-badge {badge_class}">{data['sentiment_label']}</span>
+                                <span style="color:#cbd5e1; font-size:0.85rem; display:block; font-weight:600;">Sentiment Tier</span>
+                                <span class="badge-pill {badge_class}">{data['sentiment_label']}</span>
                             </div>
                             <div>
-                                <span style="color:#94a3b8; font-size:0.8rem; display:block;">Model Confidence</span>
-                                <span style="font-size:1.1rem; font-weight:700; color:#60a5fa;">{data['confidence_score'] * 100:.1f}%</span>
+                                <span style="color:#cbd5e1; font-size:0.85rem; display:block; font-weight:600;">Model Confidence</span>
+                                <span style="font-size:1.25rem; font-weight:800; color:#38bdf8;">{data['confidence_score'] * 100:.1f}%</span>
                             </div>
                         </div>
                     </div>
                     """, unsafe_allow_html=True)
-                    st.info("💡 Search for this movie in **Screen 3** to see the aggregated star rating and full NLP justification!")
+                    st.info("💡 You can now search for this movie in **Screen 3** to see the aggregated star rating and full NLP justification!")
                 else:
                     st.error(f"Backend error: {response.text}")
             except Exception as e:
