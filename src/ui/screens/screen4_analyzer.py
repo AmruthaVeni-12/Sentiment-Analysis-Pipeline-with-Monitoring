@@ -26,18 +26,28 @@ def render():
     """, unsafe_allow_html=True)
 
     # Sample Quick Prompts
-    st.markdown("<span style='font-size:0.85rem; font-weight:600; color:#94A3B8; text-transform:uppercase; letter-spacing:0.5px;'>Try sample critiques:</span>", unsafe_allow_html=True)
+    st.markdown("""
+<div style="margin-bottom:10px;">
+  <span style='font-size:0.85rem; font-weight:600; color:#94A3B8; text-transform:uppercase; letter-spacing:0.5px;'>Quick-load sample critiques:</span>
+</div>
+""", unsafe_allow_html=True)
     c_p1, c_p2, c_p3 = st.columns(3)
     sample_text = ""
     with c_p1:
-        if st.button("🌟 'Astonishing masterpiece...'", use_container_width=True):
+        st.markdown("<div class='secondary-btn-wrap'>", unsafe_allow_html=True)
+        if st.button("🌟 Astonishing masterpiece...", use_container_width=True):
             sample_text = "An astonishing masterpiece with flawless direction, extraordinary acting, and an unforgettable story."
+        st.markdown("</div>", unsafe_allow_html=True)
     with c_p2:
-        if st.button("🍿 'Average popcorn flick...'", use_container_width=True):
+        st.markdown("<div class='secondary-btn-wrap'>", unsafe_allow_html=True)
+        if st.button("🍿 Average popcorn flick...", use_container_width=True):
             sample_text = "An average popcorn movie with standard tropes. The plot offers few surprises but is mildly entertaining."
+        st.markdown("</div>", unsafe_allow_html=True)
     with c_p3:
-        if st.button("⚠️ 'Painfully dull and atrocious...'", use_container_width=True):
+        st.markdown("<div class='secondary-btn-wrap'>", unsafe_allow_html=True)
+        if st.button("⚠️ Painfully dull & atrocious...", use_container_width=True):
             sample_text = "Painfully dull, atrocious dialogue, and completely lifeless performances throughout. A total waste of time."
+        st.markdown("</div>", unsafe_allow_html=True)
 
     user_input_text = st.text_area(
         "User Input Text",

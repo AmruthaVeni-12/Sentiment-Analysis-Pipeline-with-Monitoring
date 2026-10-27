@@ -19,8 +19,60 @@ CUSTOM_CSS = """
         max-width: 1160px !important;
     }
 
-    /* Clean Streamlit default decoration removal */
-    #MainMenu, footer, header { visibility: hidden !important; }
+    /* Clean Streamlit default decoration removal — keep header visible for sidebar toggle */
+    #MainMenu, footer { visibility: hidden !important; }
+    header { visibility: visible !important; background: transparent !important; }
+
+    /* -----------------------------------------------------------------------
+       SIDEBAR COLLAPSE / EXPAND TOGGLE BUTTON
+       Make it permanently visible and easy to click
+    ----------------------------------------------------------------------- */
+    /* The collapsed-sidebar expand pill that floats on the left edge */
+    button[data-testid="collapsedControl"],
+    div[data-testid="collapsedControl"],
+    [data-testid="collapsedControl"] {
+        display: flex !important;
+        visibility: visible !important;
+        opacity: 1 !important;
+        background-color: #8B5CF6 !important;
+        color: #FFFFFF !important;
+        border-radius: 0 8px 8px 0 !important;
+        border: 1px solid #6D28D9 !important;
+        box-shadow: 2px 0 12px rgba(139, 92, 246, 0.45) !important;
+        padding: 10px 8px !important;
+        cursor: pointer !important;
+        transition: background-color 0.2s ease, box-shadow 0.2s ease !important;
+        z-index: 9999 !important;
+    }
+
+    button[data-testid="collapsedControl"]:hover,
+    [data-testid="collapsedControl"]:hover {
+        background-color: #9333EA !important;
+        box-shadow: 2px 0 18px rgba(139, 92, 246, 0.65) !important;
+    }
+
+    button[data-testid="collapsedControl"] svg,
+    [data-testid="collapsedControl"] svg {
+        fill: #FFFFFF !important;
+        stroke: #FFFFFF !important;
+    }
+
+    /* The expand arrow that appears at the top of the sidebar itself */
+    button[kind="headerNoPadding"],
+    [data-testid="baseButton-headerNoPadding"],
+    section[data-testid="stSidebar"] button[title="Close sidebar"],
+    section[data-testid="stSidebar"] button[title="Collapse sidebar"] {
+        background-color: rgba(139, 92, 246, 0.15) !important;
+        border-radius: 6px !important;
+        color: #A78BFA !important;
+        visibility: visible !important;
+    }
+
+    section[data-testid="stSidebar"] button[title="Close sidebar"]:hover,
+    section[data-testid="stSidebar"] button[title="Collapse sidebar"]:hover {
+        background-color: rgba(139, 92, 246, 0.28) !important;
+        color: #F8FAFC !important;
+    }
 
     /* -------------------------------------------------------------
        2. SIDEBAR NAVIGATION (#101A2C)
@@ -299,30 +351,108 @@ CUSTOM_CSS = """
     }
 
     /* -------------------------------------------------------------
-       6. PRIMARY ACTION BUTTONS (Cinematic Violet #8B5CF6)
+       6. BUTTONS — High-contrast, clearly typed
+       Primary CTA: Cinematic Violet | Secondary: Slate outline
+       Form Submit: Full-width solid violet
        ------------------------------------------------------------- */
+
+    /* ── All regular st.button() ── */
     .stButton > button {
         background: linear-gradient(135deg, #8B5CF6 0%, #7C3AED 100%) !important;
         color: #FFFFFF !important;
-        border: 1px solid #6D28D9 !important;
+        border: 1.5px solid #6D28D9 !important;
         border-radius: 8px !important;
-        padding: 11px 24px !important;
-        font-size: 0.95rem !important;
-        font-weight: 600 !important;
-        letter-spacing: 0.2px !important;
-        transition: all 0.2s ease !important;
-        box-shadow: 0 4px 14px rgba(139, 92, 246, 0.3) !important;
+        padding: 10px 22px !important;
+        font-size: 0.93rem !important;
+        font-weight: 700 !important;
+        letter-spacing: 0.25px !important;
+        line-height: 1.4 !important;
+        transition: all 0.18s ease !important;
+        box-shadow: 0 3px 12px rgba(139, 92, 246, 0.35) !important;
         cursor: pointer !important;
+        min-height: 42px !important;
+        text-shadow: none !important;
     }
 
     .stButton > button:hover {
         background: linear-gradient(135deg, #9333EA 0%, #6D28D9 100%) !important;
         transform: translateY(-1px) !important;
-        box-shadow: 0 6px 20px rgba(139, 92, 246, 0.45) !important;
+        box-shadow: 0 6px 20px rgba(139, 92, 246, 0.5) !important;
+        color: #FFFFFF !important;
     }
 
     .stButton > button:active {
         transform: translateY(1px) !important;
+        box-shadow: 0 2px 8px rgba(139, 92, 246, 0.3) !important;
+    }
+
+    .stButton > button:focus {
+        outline: 2px solid #A78BFA !important;
+        outline-offset: 2px !important;
+    }
+
+    /* ── Form submit button (st.form_submit_button) ── */
+    .stFormSubmitButton > button,
+    [data-testid="stFormSubmitButton"] button,
+    button[kind="primaryFormSubmit"],
+    button[kind="formSubmit"] {
+        background: linear-gradient(135deg, #7C3AED 0%, #6D28D9 100%) !important;
+        color: #FFFFFF !important;
+        border: 1.5px solid #5B21B6 !important;
+        border-radius: 8px !important;
+        padding: 12px 28px !important;
+        font-size: 1rem !important;
+        font-weight: 700 !important;
+        letter-spacing: 0.3px !important;
+        min-height: 46px !important;
+        box-shadow: 0 4px 16px rgba(109, 40, 217, 0.45) !important;
+        transition: all 0.18s ease !important;
+        cursor: pointer !important;
+        text-shadow: none !important;
+        width: 100% !important;
+    }
+
+    .stFormSubmitButton > button:hover,
+    [data-testid="stFormSubmitButton"] button:hover {
+        background: linear-gradient(135deg, #8B5CF6 0%, #7C3AED 100%) !important;
+        box-shadow: 0 6px 22px rgba(109, 40, 217, 0.6) !important;
+        transform: translateY(-1px) !important;
+        color: #FFFFFF !important;
+    }
+
+    /* ── Sample prompt quick-buttons (lighter secondary style) ── */
+    .stButton > button[data-testid*="sample"],
+    .stButton > button[kind="secondary"] {
+        background: #1C2940 !important;
+        color: #CBD5E1 !important;
+        border: 1.5px solid #334155 !important;
+        box-shadow: none !important;
+    }
+
+    .stButton > button[kind="secondary"]:hover {
+        background: #243552 !important;
+        color: #F8FAFC !important;
+        border-color: #8B5CF6 !important;
+        box-shadow: 0 0 0 2px rgba(139, 92, 246, 0.25) !important;
+        transform: translateY(-1px) !important;
+    }
+
+    /* ── Secondary button wrapper — used for sample quick-prompt buttons ── */
+    .secondary-btn-wrap .stButton > button {
+        background: #1C2940 !important;
+        color: #CBD5E1 !important;
+        border: 1.5px solid #334155 !important;
+        box-shadow: none !important;
+        font-weight: 600 !important;
+        font-size: 0.88rem !important;
+    }
+
+    .secondary-btn-wrap .stButton > button:hover {
+        background: #243552 !important;
+        color: #F8FAFC !important;
+        border-color: #8B5CF6 !important;
+        box-shadow: 0 0 0 2px rgba(139, 92, 246, 0.22) !important;
+        transform: translateY(-1px) !important;
     }
 
     /* -------------------------------------------------------------
