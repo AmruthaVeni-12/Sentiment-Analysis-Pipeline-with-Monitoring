@@ -1,0 +1,23 @@
+stages:
+  prepare_data:
+    cmd: python -m src.data.ingestion
+    deps:
+      - src/data/ingestion.py
+      - src/data/preprocessing.py
+    outs:
+      - data/processed/train.csv
+      - data/processed/val.csv
+      - data/processed/test.csv
+
+  train_svm:
+    cmd: python -m src.models.svm_model
+    deps:
+      - src/models/svm_model.py
+      - data/processed/train.csv
+      - data/processed/val.csv
+      - data/processed/test.csv
+    outs:
+      - models/svm_pipeline.joblib
+    metrics:
+      - reports/svm_classification_report.json:
+          cache: false

@@ -1,0 +1,5 @@
+[core]
+    analytics = false
+    check_update = false
+[cache]
+    dir = cache

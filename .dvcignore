@@ -1,0 +1,7 @@
+# Add patterns of files dvc should ignore, which could be
+# A file or a directory
+.git/
+.venv/
+venv/
+mlruns/
+*.pyc

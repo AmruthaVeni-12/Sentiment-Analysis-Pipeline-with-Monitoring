@@ -1,0 +1,61 @@
+app:
+  name: "Movie Sentiment MLOps System"
+  version: "1.0.0"
+
+paths:
+  raw_data_dir: "data/raw"
+  processed_data_dir: "data/processed"
+  models_dir: "models"
+  reports_dir: "reports"
+  db_path: "sqlite:///./sentiment_app.db"
+
+data:
+  dataset_name: "imdb"
+  train_split: 0.70
+  val_split: 0.15
+  test_split: 0.15
+  random_seed: 42
+  num_classes: 5
+  class_labels:
+    0: "Very Negative"
+    1: "Negative"
+    2: "Neutral"
+    3: "Positive"
+    4: "Very Positive"
+  rating_mapping:
+    1: 0
+    2: 0
+    3: 1
+    4: 1
+    5: 2
+    6: 2
+    7: 3
+    8: 3
+    9: 4
+    10: 4
+
+svm:
+  model_name: "svm_baseline"
+  max_features: 25000
+  ngram_range: [1, 2]
+  c_param: 1.0
+  calibration: "sigmoid"
+
+distilbert:
+  model_name: "distilbert-base-uncased"
+  max_length: 128
+  batch_size: 16
+  learning_rate: 2.0e-5
+  epochs: 3
+  weight_decay: 0.01
+  warmup_ratio: 0.1
+  fp16: true
+
+mlflow:
+  tracking_uri: "sqlite:///mlflow.db"
+  experiment_name: "IMDb_5Class_Sentiment_Analysis"
+
+monitoring:
+  reference_data_path: "data/processed/test.csv"
+  drift_report_path: "reports/drift_report.html"
+  confidence_threshold: 0.50

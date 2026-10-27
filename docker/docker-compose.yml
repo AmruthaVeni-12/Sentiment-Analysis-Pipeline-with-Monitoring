@@ -1,0 +1,32 @@
+version: '3.8'
+
+services:
+  api:
+    build:
+      context: ..
+      dockerfile: docker/Dockerfile.api
+    container_name: movie_sentiment_api
+    ports:
+      - "8000:8000"
+    environment:
+      - DATABASE_URL=sqlite:///./sentiment_app.db
+    volumes:
+      - ../data:/app/data
+      - ../models:/app/models
+      - ../sentiment_app.db:/app/sentiment_app.db
+    restart: unless-stopped
+
+  ui:
+    build:
+      context: ..
+      dockerfile: docker/Dockerfile.ui
+    container_name: movie_sentiment_ui
+    ports:
+      - "8501:8501"
+    environment:
+      - API_BASE_URL=http://api:8000/api/v1
+    depends_on:
+      - api
+    volumes:
+      - ../sentiment_app.db:/app/sentiment_app.db
+    restart: unless-stopped
