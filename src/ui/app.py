@@ -3,79 +3,79 @@ from src.ui.styles import CUSTOM_CSS
 from src.ui.screens import screen1_overview, screen2_postings, screen3_search, screen4_analyzer
 
 st.set_page_config(
-    page_title="Movie Sentiment MLOps Platform",
+    page_title="CinePulse · Movie Sentiment Intelligence",
     page_icon="🎬",
     layout="wide",
     initial_sidebar_state="expanded"
 )
 
-# Inject custom CSS
+# Apply unified design system
 st.markdown(CUSTOM_CSS, unsafe_allow_html=True)
 
-# Sidebar Navigation matching user's architecture
-st.sidebar.title("🎬 Movie Sentiment MLOps")
-st.sidebar.caption("5-Class Sentiment Intelligence System")
+# Minimalist, elegant sidebar
+st.sidebar.markdown("""
+<div style="padding: 10px 0 20px 0;">
+    <h2 style="margin: 0; font-size: 1.45rem; font-weight: 800; letter-spacing: -0.5px;">
+        🎬 <span style="background: linear-gradient(135deg, #60a5fa, #a855f7); -webkit-background-clip: text; -webkit-text-fill-color: transparent;">CinePulse</span>
+    </h2>
+    <p style="margin: 4px 0 0 0; color: #64748b; font-size: 0.8rem; font-weight: 500;">
+        Movie Sentiment Intelligence
+    </p>
+</div>
+""", unsafe_allow_html=True)
 
 nav_choice = st.sidebar.radio(
-    "Navigation :",
+    "Navigation",
     [
-        "Screen 1: Context & Overview",
-        "Screen 2: Postings (Review Form)",
-        "Screen 3: Search Movie & Justification",
-        "Screen 4: Sentiment Analysis (Live)",
-        "⚙️ MLOps Drift & Model Monitoring"
+        "🎬 Overview",
+        "✍️ Post Review",
+        "🔍 Search Film",
+        "⚡ Live Analyzer",
+        "📈 Drift & Monitoring"
     ],
-    index=0
+    index=0,
+    label_visibility="collapsed"
 )
 
-st.sidebar.markdown("---")
-st.sidebar.markdown("### 📊 Pipeline Info")
-st.sidebar.info(
-    "**Dataset**: IMDb (5 Classes)\n\n"
-    "**Baseline**: Calibrated LinearSVC\n\n"
-    "**Deep Learning**: DistilBERT\n\n"
-    "**MLOps**: DVC • MLflow • Evidently AI"
-)
-
-if nav_choice == "Screen 1: Context & Overview":
+# Render chosen screen
+if nav_choice == "🎬 Overview":
     screen1_overview.render()
 
-elif nav_choice == "Screen 2: Postings (Review Form)":
+elif nav_choice == "✍️ Post Review":
     screen2_postings.render()
 
-elif nav_choice == "Screen 3: Search Movie & Justification":
+elif nav_choice == "🔍 Search Film":
     screen3_search.render()
 
-elif nav_choice == "Screen 4: Sentiment Analysis (Live)":
+elif nav_choice == "⚡ Live Analyzer":
     screen4_analyzer.render()
 
-elif nav_choice == "⚙️ MLOps Drift & Model Monitoring":
-    st.markdown("## ⚙️ Evidently AI Drift & Model Monitoring")
-    st.markdown("*Real-time detection of data drift, vocabulary shifts, and sentiment prediction distribution changes.*")
+elif nav_choice == "📈 Drift & Monitoring":
+    st.markdown("## 📈 Evidently AI Drift & Model Quality")
+    st.markdown("<p style='color:#94a3b8; font-size:0.95rem;'>Detect distribution shift in incoming user critiques against reference IMDb baselines.</p>", unsafe_allow_html=True)
     st.markdown("---")
     
     col_d1, col_d2 = st.columns([1, 4])
     with col_d1:
-        run_drift = st.button("🔄 Run Drift Analysis", use_container_width=True)
+        run_drift = st.button("🔄 Check Data Drift", use_container_width=True)
         
     from src.monitoring.drift import generate_drift_report
-    if run_drift or st.checkbox("Show latest drift summary", value=True):
-        with st.spinner("Computing Evidently AI drift metrics..."):
+    if run_drift or st.checkbox("Show cached drift report", value=True):
+        with st.spinner("Analyzing text length, vocabulary & rating shifts..."):
             summary = generate_drift_report()
             
             m1, m2, m3 = st.columns(3)
             with m1:
-                status_color = "red" if summary.get("drift_detected") else "green"
-                status_txt = "⚠️ DRIFT DETECTED" if summary.get("drift_detected") else "✅ STABLE (No Drift)"
+                status_txt = "⚠️ Drift Detected" if summary.get("drift_detected") else "✅ Baseline Stable"
                 st.metric("Drift Status", status_txt)
             with m2:
                 st.metric("Drift Share", f"{summary.get('drift_share', 0.0) * 100:.1f}%")
             with m3:
-                st.metric("Production Samples", summary.get("total_production_samples", 0))
+                st.metric("Samples Logged", summary.get("total_production_samples", 0))
 
             html_report_path = summary.get("report_html_path")
             if html_report_path and open(html_report_path, "r", encoding="utf-8"):
-                st.markdown("### 📈 Evidently AI Interactive Dashboard")
+                st.markdown("<h3 style='margin-top:20px;'>📊 Interactive Evidently Report</h3>", unsafe_allow_html=True)
                 with open(html_report_path, "r", encoding="utf-8") as f:
                     html_content = f.read()
-                st.components.v1.html(html_content, height=800, scrolling=True)
+                st.components.v1.html(html_content, height=750, scrolling=True)

@@ -5,37 +5,42 @@ from src.ui.styles import render_footer
 API_BASE_URL = "http://127.0.0.1:8000/api/v1"
 
 def render():
-    st.markdown("## 📝 Screen 2: Movie Review Postings")
-    st.markdown("*Register movie details and submit your review for automated NLP sentiment classification.*")
-    st.markdown("---")
+    st.markdown("""
+    <div style="margin-bottom: 20px;">
+        <h2 style="margin: 0;">✍️ Post Movie Review</h2>
+        <p style="color: #94a3b8; font-size: 0.95rem; margin: 4px 0 0 0;">
+            Submit film details and an audience review. The NLP engine will automatically classify the sentiment into 1 to 5 stars.
+        </p>
+    </div>
+    """, unsafe_allow_html=True)
 
     with st.form("posting_form"):
-        st.subheader("Film Metadata & Review Submission")
-        
-        movie_name = st.text_input("Movie Name :", placeholder="e.g. Inception, Oppenheimer, The Godfather")
-        
-        col_meta1, col_meta2 = st.columns(2)
-        with col_meta1:
-            released_year = st.number_input("Released Year :", min_value=1900, max_value=2030, value=2023, step=1)
-        with col_meta2:
-            cast = st.text_input("Cast :", placeholder="e.g. Cillian Murphy, Emily Blunt, Matt Damon")
-            
-        direction_info = st.text_input("Direction & Additional Info :", placeholder="e.g. Directed by Christopher Nolan, IMAX 70mm cinematography")
-        
+        col1, col2 = st.columns([3, 1])
+        with col1:
+            movie_name = st.text_input("Movie Name *", placeholder="e.g. Oppenheimer, Dune, The Godfather")
+        with col2:
+            released_year = st.number_input("Release Year", min_value=1900, max_value=2035, value=2023, step=1)
+
+        col3, col4 = st.columns(2)
+        with col3:
+            cast = st.text_input("Lead Cast", placeholder="e.g. Cillian Murphy, Emily Blunt, Robert Downey Jr.")
+        with col4:
+            direction_info = st.text_input("Director & Technical Info", placeholder="e.g. Christopher Nolan (IMAX 70mm)")
+
         about_movie = st.text_area(
-            "About Movie (in 3 to 4 lines) :",
+            "About Movie (in 3 to 4 lines) *",
             height=120,
-            placeholder="Write your movie review here (e.g. 'Phenomenal performances and a gripping musical score that kept me on the edge of my seat...')"
+            placeholder="Share your thoughts on the narrative, pacing, and performances (e.g. 'A breathtaking cinematic achievement with intense performances and a masterclass in musical scoring.')"
         )
-        
-        submit_btn = st.form_submit_button("🚀 Submit Posting & Classify Sentiment", use_container_width=True)
+
+        submit_btn = st.form_submit_button("🚀 Submit & Analyze Review", use_container_width=True)
 
     if submit_btn:
         if not movie_name.strip():
-            st.error("Please provide a valid Movie Name.")
+            st.error("Please enter a valid Movie Name.")
             return
-        if not about_movie.strip() or len(about_movie.strip()) < 5:
-            st.error("Please enter a review description of at least 3 to 4 lines (minimum 10 characters).")
+        if not about_movie.strip() or len(about_movie.strip()) < 8:
+            st.error("Please provide a review of at least a few words (minimum 8 characters).")
             return
 
         payload = {
@@ -46,68 +51,45 @@ def render():
             "about_movie": about_movie.strip()
         }
 
-        with st.spinner("Classifying sentiment and registering to database..."):
+        with st.spinner("Analyzing review and storing to database..."):
             try:
-                response = requests.post(f"{API_BASE_URL}/reviews/post", json=payload, timeout=10)
+                response = requests.post(f"{API_BASE_URL}/reviews/post", json=payload, timeout=8)
                 if response.status_code == 200:
                     data = response.json()
                     st.success(f"✅ {data['message']}")
                     
-                    # Result card
-                    st.markdown("""
-                    <div class="metric-card">
-                        <h4>🎯 Automated Classification Result</h4>
+                    # Styled result card
+                    badge_class = {
+                        0: "pill-vneg",
+                        1: "pill-neg",
+                        2: "pill-neu",
+                        3: "pill-pos",
+                        4: "pill-vpos"
+                    }.get(data["sentiment_class"], "pill-neu")
+
+                    st.markdown(f"""
+                    <div class="glass-card" style="margin-top: 15px; border-left: 4px solid #6366f1;">
+                        <h4 style="margin: 0 0 12px 0; font-size: 1.05rem;">🎯 Sentiment Classification Summary</h4>
+                        <div style="display: flex; gap: 30px; align-items: center; flex-wrap: wrap;">
+                            <div>
+                                <span style="color:#94a3b8; font-size:0.8rem; display:block;">Assigned Rating</span>
+                                <span style="font-size:1.2rem; font-weight:700; color:#fbbf24;">{'★' * data['star_rating']} ({data['star_rating']}/5)</span>
+                            </div>
+                            <div>
+                                <span style="color:#94a3b8; font-size:0.8rem; display:block;">Sentiment Tier</span>
+                                <span class="pill-badge {badge_class}">{data['sentiment_label']}</span>
+                            </div>
+                            <div>
+                                <span style="color:#94a3b8; font-size:0.8rem; display:block;">Model Confidence</span>
+                                <span style="font-size:1.1rem; font-weight:700; color:#60a5fa;">{data['confidence_score'] * 100:.1f}%</span>
+                            </div>
+                        </div>
+                    </div>
                     """, unsafe_allow_html=True)
-                    
-                    res_col1, res_col2, res_col3 = st.columns(3)
-                    with res_col1:
-                        st.metric("Assigned Rating", "⭐" * data["star_rating"])
-                    with res_col2:
-                        st.metric("Sentiment Class", data["sentiment_label"])
-                    with res_col3:
-                        st.metric("Confidence Score", f"{data['confidence_score'] * 100:.1f}%")
-                        
-                    st.markdown("</div>", unsafe_allow_html=True)
-                    st.info("💡 You can now search for this movie in **Screen 3** to see the aggregated star rating and full NLP justification!")
+                    st.info("💡 Search for this movie in **Screen 3** to see the aggregated star rating and full NLP justification!")
                 else:
-                    st.error(f"Backend API error: {response.text}")
-            except requests.exceptions.ConnectionError:
-                # Local fallback if API server is not running separately
-                from src.database.session import SessionLocal
-                from src.database.models import Movie, Review, DriftLog
-                from src.api.routes import predict_with_svm, clean_text
-                
-                db = SessionLocal()
-                try:
-                    movie = db.query(Movie).filter(Movie.title.ilike(movie_name.strip())).first()
-                    if not movie:
-                        movie = Movie(
-                            title=movie_name.strip(),
-                            release_year=int(released_year),
-                            cast_info=cast.strip() if cast else None,
-                            director_info=direction_info.strip() if direction_info else None
-                        )
-                        db.add(movie)
-                        db.commit()
-                        db.refresh(movie)
-                    
-                    cleaned_txt = clean_text(about_movie)
-                    pred = predict_with_svm(cleaned_txt)
-                    
-                    rev = Review(
-                        movie_id=movie.id,
-                        review_text=cleaned_txt,
-                        predicted_class=pred["class"],
-                        predicted_label=pred["label"],
-                        confidence_score=pred["confidence"],
-                        model_name="svm_baseline"
-                    )
-                    db.add(rev)
-                    db.commit()
-                    
-                    st.success(f"✅ Review successfully registered locally for '{movie.title}'!")
-                    st.metric("Assigned Rating", f"{'⭐' * pred['stars']} ({pred['label']})")
-                finally:
-                    db.close()
+                    st.error(f"Backend error: {response.text}")
+            except Exception as e:
+                st.error(f"Failed to communicate with API server: {e}")
 
     st.markdown(render_footer(), unsafe_allow_html=True)
