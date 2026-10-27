@@ -18,7 +18,7 @@ def render():
         st.markdown("<div style='font-size:0.85rem; font-weight:600; color:#8B5CF6; text-transform:uppercase; letter-spacing:0.5px; margin-bottom:12px;'>Film Metadata & Audience Critique</div>", unsafe_allow_html=True)
 
         # Row 1: Movie Name (required) & Release Year
-        col1, col2 = st.columns([3, 1])
+        col1, col2 = st.columns([3, 1.2])
         with col1:
             movie_name = st.text_input("Movie Name *", placeholder="e.g. Oppenheimer, Dune, The Godfather")
         with col2:

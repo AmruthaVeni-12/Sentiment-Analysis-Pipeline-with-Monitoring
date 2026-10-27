@@ -208,6 +208,22 @@ CUSTOM_CSS = """
     /* -------------------------------------------------------------
        5. FORM INPUTS & LABELS (#1C2940 surface)
        ------------------------------------------------------------- */
+    /* Hide Streamlit default input instructions ("Press Enter to submit form" / "Press Ctrl+Enter") */
+    [data-testid="InputInstructions"],
+    div[data-testid="InputInstructions"],
+    span[data-testid="InputInstructions"],
+    .stInputInstructions,
+    small:has(span) {
+        display: none !important;
+        visibility: hidden !important;
+        opacity: 0 !important;
+        height: 0px !important;
+        width: 0px !important;
+        margin: 0 !important;
+        padding: 0 !important;
+        pointer-events: none !important;
+    }
+
     .stTextInput label, 
     .stTextArea label, 
     .stNumberInput label,
@@ -216,6 +232,17 @@ CUSTOM_CSS = """
         font-size: 0.92rem !important;
         font-weight: 600 !important;
         margin-bottom: 6px !important;
+    }
+
+    /* Container wrappers for input elements */
+    div[data-baseweb="input"],
+    div[data-baseweb="base-input"],
+    div[data-testid="stNumberInputContainer"] {
+        background-color: #1C2940 !important;
+        border: 1px solid #293952 !important;
+        border-radius: 8px !important;
+        color: #F8FAFC !important;
+        transition: border-color 0.15s ease, box-shadow 0.15s ease !important;
     }
 
     .stTextInput input, 
@@ -230,6 +257,31 @@ CUSTOM_CSS = """
         transition: border-color 0.15s ease, box-shadow 0.15s ease !important;
     }
 
+    /* Seamless number input step buttons */
+    .stNumberInput div[data-baseweb="input"] input {
+        border: none !important;
+    }
+
+    .stNumberInput button,
+    div[data-testid="stNumberInputContainer"] button {
+        background-color: #24354D !important;
+        color: #CBD5E1 !important;
+        border: none !important;
+        border-left: 1px solid #293952 !important;
+        transition: background 0.15s ease, color 0.15s ease !important;
+    }
+
+    .stNumberInput button:hover,
+    div[data-testid="stNumberInputContainer"] button:hover {
+        background-color: #334B6C !important;
+        color: #F8FAFC !important;
+    }
+
+    .stNumberInput button svg,
+    div[data-testid="stNumberInputContainer"] button svg {
+        fill: #CBD5E1 !important;
+    }
+
     .stTextInput input::placeholder,
     .stTextArea textarea::placeholder {
         color: #64748B !important;
@@ -238,7 +290,9 @@ CUSTOM_CSS = """
 
     .stTextInput input:focus, 
     .stTextArea textarea:focus,
-    .stNumberInput input:focus {
+    .stNumberInput input:focus,
+    div[data-baseweb="input"]:focus-within,
+    div[data-testid="stNumberInputContainer"]:focus-within {
         border-color: #8B5CF6 !important;
         box-shadow: 0 0 0 3px rgba(139, 92, 246, 0.25) !important;
         outline: none !important;
