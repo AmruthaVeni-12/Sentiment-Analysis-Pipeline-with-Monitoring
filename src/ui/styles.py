@@ -1,200 +1,372 @@
 CUSTOM_CSS = """
 <style>
-    @import url('https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&display=swap');
+    @import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap');
 
-    /* Global App Canvas */
+    /* -------------------------------------------------------------
+       1. GLOBAL RESET & BASE CANVAS
+       Main Background: #0B1120 | Text: #F8FAFC | Font: Inter
+       ------------------------------------------------------------- */
     html, body, [class*="css"], .stApp {
-        font-family: 'Plus Jakarta Sans', -apple-system, sans-serif !important;
-        background-color: #0b111e !important;
-        color: #ffffff !important;
+        font-family: 'Inter', -apple-system, BlinkMacSystemFont, sans-serif !important;
+        background-color: #0B1120 !important;
+        color: #F8FAFC !important;
     }
 
-    /* Streamlit Container Width & Padding */
+    /* Container constraints & comfortable vertical rhythm */
     .block-container {
         padding-top: 2rem !important;
         padding-bottom: 3.5rem !important;
-        max-width: 1140px !important;
+        max-width: 1160px !important;
     }
 
-    /* Clean Header/Footer Removals */
+    /* Clean Streamlit default decoration removal */
     #MainMenu, footer, header { visibility: hidden !important; }
 
-    /* Sidebar - Deep Matte Navy */
+    /* -------------------------------------------------------------
+       2. SIDEBAR NAVIGATION (#101A2C)
+       ------------------------------------------------------------- */
     section[data-testid="stSidebar"] {
-        background-color: #080d17 !important;
-        border-right: 1px solid #1e293b !important;
+        background-color: #101A2C !important;
+        border-right: 1px solid #1E293B !important;
     }
 
-    section[data-testid="stSidebar"] p,
-    section[data-testid="stSidebar"] span {
-        color: #e2e8f0 !important;
-        font-size: 0.95rem !important;
+    /* Sidebar brand container */
+    .sidebar-brand {
+        padding: 14px 12px 20px 12px;
+        border-bottom: 1px solid #1E293B;
+        margin-bottom: 20px;
     }
 
-    /* Typography Hierarchy - High Contrast White & Off-White */
-    h1 {
-        font-size: 2.2rem !important;
+    .brand-title {
+        font-size: 1.35rem;
+        font-weight: 800;
+        color: #F8FAFC;
+        letter-spacing: -0.02em;
+        display: flex;
+        align-items: center;
+        gap: 8px;
+    }
+
+    .brand-badge {
+        font-size: 0.68rem;
+        background: rgba(139, 92, 246, 0.2);
+        color: #A78BFA;
+        border: 1px solid rgba(139, 92, 246, 0.4);
+        padding: 2px 8px;
+        border-radius: 12px;
+        font-weight: 600;
+        text-transform: uppercase;
+        letter-spacing: 0.5px;
+        margin-left: 6px;
+    }
+
+    .brand-sub {
+        font-size: 0.82rem;
+        color: #94A3B8;
+        margin-top: 4px;
+        font-weight: 400;
+    }
+
+    /* Sidebar Radio Navigation items - SaaS Polish */
+    section[data-testid="stSidebar"] .stRadio > div {
+        gap: 6px !important;
+    }
+
+    section[data-testid="stSidebar"] .stRadio label {
+        background-color: transparent !important;
+        border-radius: 8px !important;
+        padding: 10px 14px !important;
+        margin-bottom: 2px !important;
+        color: #CBD5E1 !important;
+        font-size: 0.92rem !important;
+        font-weight: 500 !important;
+        transition: all 0.15s ease-in-out !important;
+        display: flex !important;
+        align-items: center !important;
+        border: 1px solid transparent !important;
+    }
+
+    section[data-testid="stSidebar"] .stRadio label:hover {
+        background-color: rgba(255, 255, 255, 0.04) !important;
+        color: #F8FAFC !important;
+        border-color: rgba(255, 255, 255, 0.08) !important;
+    }
+
+    /* Active Radio button item state */
+    section[data-testid="stSidebar"] .stRadio label[data-checked="true"],
+    section[data-testid="stSidebar"] .stRadio div[aria-checked="true"] {
+        background-color: rgba(139, 92, 246, 0.15) !important;
+        color: #F8FAFC !important;
+        font-weight: 600 !important;
+        border: 1px solid rgba(139, 92, 246, 0.4) !important;
+    }
+
+    /* -------------------------------------------------------------
+       3. TYPOGRAPHY HIERARCHY
+       Titles: 26-32px | Subheadings: 18-22px | Body: 14-16px
+       ------------------------------------------------------------- */
+    h1, .page-title {
+        font-size: 1.85rem !important;
         font-weight: 800 !important;
-        color: #ffffff !important;
-        letter-spacing: -0.02em !important;
-        margin-bottom: 0.6rem !important;
+        color: #F8FAFC !important;
+        letter-spacing: -0.025em !important;
+        margin-bottom: 0.35rem !important;
+        line-height: 1.25 !important;
     }
 
-    h2 {
-        font-size: 1.65rem !important;
+    h2, .section-heading {
+        font-size: 1.35rem !important;
         font-weight: 700 !important;
-        color: #ffffff !important;
-        letter-spacing: -0.01em !important;
-        margin-top: 0.2rem !important;
+        color: #F8FAFC !important;
+        letter-spacing: -0.015em !important;
+        margin-top: 0.6rem !important;
         margin-bottom: 0.5rem !important;
     }
 
     h3 {
-        font-size: 1.25rem !important;
-        font-weight: 700 !important;
-        color: #f8fafc !important;
-        margin-top: 1rem !important;
-        margin-bottom: 0.5rem !important;
+        font-size: 1.15rem !important;
+        font-weight: 600 !important;
+        color: #F8FAFC !important;
+        margin-top: 0.8rem !important;
+        margin-bottom: 0.4rem !important;
     }
 
-    p, span, div, label {
-        color: #e2e8f0 !important;
-        font-size: 1rem !important;
-        line-height: 1.65 !important;
+    p, span, div {
+        color: #CBD5E1 !important;
+        font-size: 0.95rem !important;
+        line-height: 1.6 !important;
     }
 
-    /* Form Labels: Crisp, Bright White */
+    .page-subtitle {
+        color: #94A3B8 !important;
+        font-size: 0.98rem !important;
+        margin-bottom: 1.5rem !important;
+        line-height: 1.5 !important;
+    }
+
+    /* -------------------------------------------------------------
+       4. CARDS & SURFACES (#151F32 & #1C2940)
+       ------------------------------------------------------------- */
+    .saas-card {
+        background-color: #151F32 !important;
+        border: 1px solid #1E293B !important;
+        border-radius: 12px !important;
+        padding: 24px !important;
+        margin-bottom: 20px !important;
+        box-shadow: 0 4px 20px -2px rgba(0, 0, 0, 0.4) !important;
+    }
+
+    .saas-card-elevated {
+        background-color: #1C2940 !important;
+        border: 1px solid #293952 !important;
+        border-radius: 12px !important;
+        padding: 22px !important;
+        margin-bottom: 20px !important;
+    }
+
+    /* Metric & KPI Cards */
+    .kpi-card {
+        background-color: #151F32;
+        border: 1px solid #1E293B;
+        border-radius: 10px;
+        padding: 18px 20px;
+        display: flex;
+        flex-direction: column;
+        justify-content: space-between;
+        height: 100%;
+        transition: transform 0.15s ease, border-color 0.15s ease;
+    }
+    
+    .kpi-card:hover {
+        border-color: #334155;
+        transform: translateY(-2px);
+    }
+
+    .kpi-label {
+        font-size: 0.82rem !important;
+        font-weight: 600 !important;
+        text-transform: uppercase !important;
+        letter-spacing: 0.5px !important;
+        color: #94A3B8 !important;
+        margin-bottom: 6px !important;
+    }
+
+    .kpi-value {
+        font-size: 1.75rem !important;
+        font-weight: 800 !important;
+        color: #F8FAFC !important;
+        line-height: 1.2 !important;
+    }
+
+    .kpi-sub {
+        font-size: 0.8rem !important;
+        color: #22D3EE !important;
+        margin-top: 6px !important;
+        font-weight: 500 !important;
+    }
+
+    /* -------------------------------------------------------------
+       5. FORM INPUTS & LABELS (#1C2940 surface)
+       ------------------------------------------------------------- */
     .stTextInput label, 
     .stTextArea label, 
     .stNumberInput label,
     .stSelectbox label {
-        color: #ffffff !important;
-        font-size: 1rem !important;
+        color: #F8FAFC !important;
+        font-size: 0.92rem !important;
         font-weight: 600 !important;
         margin-bottom: 6px !important;
     }
 
-    /* Inputs: Dark Slate with High Contrast White Text */
     .stTextInput input, 
     .stTextArea textarea, 
     .stNumberInput input {
-        background-color: #131c2e !important;
-        border: 1.5px solid #2d3d57 !important;
+        background-color: #1C2940 !important;
+        border: 1px solid #293952 !important;
         border-radius: 8px !important;
-        color: #ffffff !important;
-        font-size: 1rem !important;
+        color: #F8FAFC !important;
+        font-size: 0.95rem !important;
         padding: 12px 14px !important;
+        transition: border-color 0.15s ease, box-shadow 0.15s ease !important;
+    }
+
+    .stTextInput input::placeholder,
+    .stTextArea textarea::placeholder {
+        color: #64748B !important;
+        font-size: 0.92rem !important;
     }
 
     .stTextInput input:focus, 
-    .stTextArea textarea:focus {
-        border-color: #f59e0b !important;
-        box-shadow: 0 0 0 2px rgba(245, 158, 11, 0.25) !important;
+    .stTextArea textarea:focus,
+    .stNumberInput input:focus {
+        border-color: #8B5CF6 !important;
+        box-shadow: 0 0 0 3px rgba(139, 92, 246, 0.25) !important;
+        outline: none !important;
     }
 
-    /* Solid Unified Cards */
-    .app-card {
-        background-color: #131c2e !important;
-        border: 1px solid #24344d !important;
-        border-radius: 12px !important;
-        padding: 24px !important;
-        margin-bottom: 20px !important;
-        box-shadow: 0 4px 16px rgba(0, 0, 0, 0.35) !important;
-    }
-
-    /* Hero Banner: Gold Accent */
-    .hero-box {
-        background: linear-gradient(145deg, #162035 0%, #101726 100%) !important;
-        border: 1px solid #2e4060 !important;
-        border-left: 5px solid #f59e0b !important;
-        border-radius: 12px !important;
-        padding: 28px !important;
-        margin-bottom: 24px !important;
-    }
-
-    .gold-accent {
-        color: #f59e0b !important;
-        font-weight: 800 !important;
-    }
-
-    /* Buttons: Bold Cinema Gold that Suited with Deep Navy Canvas */
+    /* -------------------------------------------------------------
+       6. PRIMARY ACTION BUTTONS (Cinematic Violet #8B5CF6)
+       ------------------------------------------------------------- */
     .stButton > button {
-        background-color: #f59e0b !important;
-        color: #0b111e !important;
-        border: 1px solid #d97706 !important;
+        background: linear-gradient(135deg, #8B5CF6 0%, #7C3AED 100%) !important;
+        color: #FFFFFF !important;
+        border: 1px solid #6D28D9 !important;
         border-radius: 8px !important;
-        padding: 12px 24px !important;
-        font-size: 1rem !important;
-        font-weight: 700 !important;
+        padding: 11px 24px !important;
+        font-size: 0.95rem !important;
+        font-weight: 600 !important;
         letter-spacing: 0.2px !important;
-        transition: all 0.2s ease-in-out !important;
-        box-shadow: 0 4px 12px rgba(245, 158, 11, 0.25) !important;
+        transition: all 0.2s ease !important;
+        box-shadow: 0 4px 14px rgba(139, 92, 246, 0.3) !important;
+        cursor: pointer !important;
     }
 
     .stButton > button:hover {
-        background-color: #fbbf24 !important;
-        color: #000000 !important;
+        background: linear-gradient(135deg, #9333EA 0%, #6D28D9 100%) !important;
         transform: translateY(-1px) !important;
-        box-shadow: 0 6px 18px rgba(245, 158, 11, 0.4) !important;
+        box-shadow: 0 6px 20px rgba(139, 92, 246, 0.45) !important;
     }
 
     .stButton > button:active {
         transform: translateY(1px) !important;
     }
 
-    /* Sentiment Tier Badges (High Contrast Pills) */
-    .tier-box {
-        background-color: #131c2e;
-        border: 1px solid #24344d;
-        border-radius: 10px;
-        padding: 16px 10px;
-        text-align: center;
-    }
-
-    .badge-pill {
-        display: inline-block;
-        padding: 5px 12px;
+    /* -------------------------------------------------------------
+       7. RESTRAINED SENTIMENT BADGES (Accessible & Crisp)
+       Positive: Green | Neutral: Amber | Negative: Coral
+       ------------------------------------------------------------- */
+    .sentiment-badge {
+        display: inline-flex;
+        align-items: center;
+        gap: 6px;
+        padding: 4px 12px;
         border-radius: 6px;
-        font-weight: 700;
+        font-weight: 600;
         font-size: 0.85rem !important;
-        margin: 6px 0;
-        letter-spacing: 0.3px;
+        letter-spacing: 0.2px;
     }
 
-    .badge-vneg { background-color: #7f1d1d; color: #fecaca !important; border: 1px solid #dc2626; }
-    .badge-neg  { background-color: #7c2d12; color: #fed7aa !important; border: 1px solid #ea580c; }
-    .badge-neu  { background-color: #713f12; color: #fef08a !important; border: 1px solid #ca8a04; }
-    .badge-pos  { background-color: #1e3a8a; color: #bfdbfe !important; border: 1px solid #2563eb; }
-    .badge-vpos { background-color: #14532d; color: #bbf7d0 !important; border: 1px solid #16a34a; }
+    .badge-vneg {
+        background: rgba(239, 68, 68, 0.15);
+        color: #F87171 !important;
+        border: 1px solid rgba(239, 68, 68, 0.35);
+    }
 
-    /* Rating Justification Box */
-    .justification-panel {
-        background-color: #162238;
-        border-left: 4px solid #f59e0b;
+    .badge-neg {
+        background: rgba(249, 115, 22, 0.15);
+        color: #FB923C !important;
+        border: 1px solid rgba(249, 115, 22, 0.35);
+    }
+
+    .badge-neu {
+        background: rgba(245, 158, 11, 0.15);
+        color: #FBBF24 !important;
+        border: 1px solid rgba(245, 158, 11, 0.35);
+    }
+
+    .badge-pos {
+        background: rgba(34, 211, 238, 0.15);
+        color: #38BDF8 !important;
+        border: 1px solid rgba(34, 211, 238, 0.35);
+    }
+
+    .badge-vpos {
+        background: rgba(16, 185, 129, 0.15);
+        color: #34D399 !important;
+        border: 1px solid rgba(16, 185, 129, 0.35);
+    }
+
+    /* -------------------------------------------------------------
+       8. JUSTIFICATION PANEL & EDITORIAL CALLOUTS
+       ------------------------------------------------------------- */
+    .justification-card {
+        background-color: #151F32;
+        border: 1px solid #1E293B;
+        border-left: 4px solid #8B5CF6;
         border-radius: 8px;
-        padding: 22px 24px;
-        font-size: 1.05rem !important;
-        line-height: 1.8 !important;
-        color: #ffffff !important;
-        margin: 18px 0;
-        box-shadow: 0 4px 15px rgba(0, 0, 0, 0.3);
+        padding: 20px 24px;
+        font-size: 0.98rem !important;
+        line-height: 1.75 !important;
+        color: #F1F5F9 !important;
+        margin: 16px 0;
     }
 
-    /* Clean Footer */
-    .clean-footer {
-        margin-top: 45px;
-        padding-top: 18px;
-        border-top: 1px solid #1e293b;
+    /* -------------------------------------------------------------
+       9. CLEAN DATA TABLE STYLING
+       ------------------------------------------------------------- */
+    div[data-testid="stDataFrame"] {
+        border: 1px solid #1E293B !important;
+        border-radius: 10px !important;
+        background-color: #151F32 !important;
+    }
+
+    /* -------------------------------------------------------------
+       10. FOOTER
+       ------------------------------------------------------------- */
+    .app-footer {
+        margin-top: 50px;
+        padding-top: 20px;
+        border-top: 1px solid #1E293B;
         text-align: center;
-        color: #94a3b8 !important;
-        font-size: 0.88rem !important;
+        color: #64748B !important;
+        font-size: 0.82rem !important;
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        flex-wrap: wrap;
+        gap: 12px;
     }
 </style>
 """
 
 def render_footer():
     return """
-    <div class="clean-footer">
-        🎬 <b>CinePulse</b> · 5-Class Movie Sentiment Platform · Powered by FastAPI & Scikit-Learn
+    <div class="app-footer">
+        <div>
+            🎬 <b>CinePulse</b> · 5-Class Movie Sentiment Intelligence
+        </div>
+        <div>
+            Engine: <b>FastAPI</b> · Model: <b>Calibrated LinearSVC</b> · Monitoring: <b>Evidently AI</b>
+        </div>
     </div>
     """
