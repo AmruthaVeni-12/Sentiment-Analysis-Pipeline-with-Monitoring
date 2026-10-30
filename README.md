@@ -58,13 +58,13 @@ Interactive API docs available at: `http://localhost:8000/docs`
 
 ### 4. Run Streamlit 4-Screen Application
 ```powershell
-streamlit run src/ui/app.py
+python -m streamlit run src/ui/app.py
 ```
 UI dashboard opens at: `http://localhost:8501`
 
 ### 5. Launch MLflow Tracking UI
 ```powershell
-mlflow ui --backend-store-uri sqlite:///mlflow.db --port 5000
+python -m mlflow ui --backend-store-uri sqlite:///mlflow.db --port 5000
 ```
 Navigate to: `http://localhost:5000`
 
